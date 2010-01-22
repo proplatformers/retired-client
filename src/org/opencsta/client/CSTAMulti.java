@@ -18,6 +18,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.opencsta.apps.objects.CSTAApplication;
 import org.opencsta.client.CSTAFunctions;
+import org.opencsta.client.asterisk.AsteriskCSTAClient;
+import org.opencsta.client.ericssonapplink4.EricssonAppLink;
 import org.opencsta.client.hipath3000.CSTAClient3000;
 
 /**
@@ -49,12 +51,16 @@ public class CSTAMulti implements Runnable,CSTAFunctions{
         String imp = getPropertyImplementation();
         if( imp.equalsIgnoreCase("ASTERISK") ){
             log.info(this.getClass().getName() + " ---> " + " IMPLEMENTATION: ASTERISK") ;
-            implementation = new Asterisk(theProps) ;
+            implementation = new AsteriskCSTAClient(theProps) ;
         }
         else if( imp.equalsIgnoreCase("SIEMENS_HIPATH3000_CSTA")){
             log.info(this.getClass().getName() + " ---> " + " IMPLEMENTATION: SIEMENS HIPATH 3000") ;
             implementation = new CSTAClient3000(theProps) ;
             TDSEnable();
+        }
+        else if( imp.equalsIgnoreCase("ERICSSON_APPLINK_V4") ){
+            log.info(this.getClass().getName() + " ---> " + " IMPLEMENTATION: ERICSSON APPLINK 4.0") ;
+            implementation = new EricssonAppLink(theProps) ;
         }
         else{
             log.info(this.getClass().getName() + " ---> " + " IMPLEMENTATION: NONE!!!") ;
