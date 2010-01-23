@@ -19,6 +19,9 @@ package org.opencsta.client;
 
 import java.net.Socket;
 import org.opencsta.apps.objects.CSTAApplication ;
+import org.opencsta.apps.objects.Client_Layer7_Impl;
+import org.opencsta.servicedescription.callcontrol.events.CallEvent_Base;
+import org.opencsta.servicedescription.logicaldevicefeatures.events.AgentEvent_Base;
 
 /**
  * CSTAFunctions is the highest level interface which all CSTAClient objects implement to get any CSTA
@@ -28,7 +31,13 @@ import org.opencsta.apps.objects.CSTAApplication ;
  * @author mylo
  */
 public interface CSTAFunctions {
-    
+
+
+    public void CSTAEventReceived(CallEvent_Base currentEvent) ;
+    public void CSTAEventReceived(AgentEvent_Base currentEvent) ;
+    public void setCl7(Client_Layer7_Impl cl7) ;
+    public Client_Layer7_Impl getCl7() ;
+    public void SendToServer(StringBuffer sb) ;
     /**
      * Make a call from a device to another device
      *
@@ -134,25 +143,11 @@ public interface CSTAFunctions {
      */
     public void DeflectCall(String deviceFrom, String deviceTo, String call_id) ;
     
-    /**
-     * The parent application calls this method on the CSTA functionality object (client)
-     * and passes itself.
-     *
-     *
-     * @param parent The parent application - an implementation of the CSTAClientApplication interface
-     */
-    public void RegisterParentApplication(CSTAApplication parent) ;
     
     /**
      * Notify the server that the TDS is to be instantiated and that this client is requesting it.
      *
      */
     public void TDSEnable() ;
-    
-    public void Quit() ;
 
-    public void ServerStatus() ;
-
-    public Socket getSocket() ; //useful for knowing when a csta client connection is established to the server
-    public void release() ;
 }

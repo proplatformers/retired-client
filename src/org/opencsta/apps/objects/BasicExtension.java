@@ -51,9 +51,11 @@ public class BasicExtension implements Comparable<BasicExtension>,CSTAApplicatio
         this.id = _id ;
         this.rank = Integer.parseInt(this.id) ;
         this.state = 0 ;
-        csta = new CSTAClient3000(new Properties() ) ;
-        csta.RegisterParentApplication(this);
-        csta.MonitorStart(this.id) ;
+
+        //2010 January 23 - Adjust these for the new CSTAMulti way of doing it.
+//        csta = new CSTAClient3000(new Properties() ) ;
+//        csta.RegisterParentApplication(this);
+//        csta.MonitorStart(this.id) ;
     }
 
     public int getState() {

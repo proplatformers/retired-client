@@ -22,9 +22,9 @@ import java.net.Socket;
 import org.opencsta.net.TCPClientOwnerInterface;
 import org.opencsta.net.TCPClient ;
 import java.util.Properties ;
-import org.opencsta.servicedescription.callcontrol.services.CallControl_Services;
-import org.opencsta.servicedescription.logicaldevicefeatures.services.LogicalDeviceFeatures_Services;
-import org.opencsta.servicedescription.physicaldevicefeatures.services.PhysicalDeviceFeatures_Services;
+import org.opencsta.servicedescription.callcontrol.services.CallControl_Services_SiemensHipath3000;
+import org.opencsta.servicedescription.logicaldevicefeatures.services.LogicalDeviceFeatures_Services_SiemensHipath3000;
+import org.opencsta.servicedescription.physicaldevicefeatures.services.PhysicalDeviceFeatures_Services_SiemensHipath3000;
 import org.apache.log4j.Logger ;
 import org.opencsta.apps.objects.CSTAApplication;
 
@@ -42,19 +42,18 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * the call controls offered
      *
      */
-    protected CallControl_Services callcontrols ;
+//    protected CallControl_Services_SiemensHipath3000 callcontrols ;
     
     /**
      * the tcp link to the server
      *
      */
     private TCPClient tcp ;
-    
     /**
      * the logical device services offered
      *
      */
-    protected LogicalDeviceFeatures_Services ldfs ;
+//    protected LogicalDeviceFeatures_Services ldfs ;
     
 //    /*
 //     * ignore this til a better implementation later of whatever it does
@@ -66,7 +65,7 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * the physical device features offered
      *
      */
-    protected PhysicalDeviceFeatures_Services devicecontrols ;
+//    protected PhysicalDeviceFeatures_Services devicecontrols ;
     
     /**
      * The properties file that the client uses to get some values
@@ -104,9 +103,9 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
         tcp.setCSTAClientCommunications(true) ;
         tcpThread = new Thread(tcp,"TCP Thread") ;
         tcpThread.start() ;
-        callcontrols = new CallControl_Services() ;
-        ldfs = new LogicalDeviceFeatures_Services() ;
-        devicecontrols = new PhysicalDeviceFeatures_Services() ;
+//        callcontrols = new CallControl_Services_SiemensHipath3000() ;
+//        ldfs = new LogicalDeviceFeatures_Services() ;
+//        devicecontrols = new PhysicalDeviceFeatures_Services() ;
         log.info("CSTAClientBase - Started Base Functions and logging...getting tcp info");
         log.info( tcp.GetConnectionInfo() ) ;
     }
@@ -119,9 +118,9 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
         tcp.setRunFlag(false);
         tcpThread.interrupt();
         theProps = null ;
-        callcontrols = null ;
-        ldfs = null ;
-        devicecontrols = null ;
+//        callcontrols = null ;
+//        ldfs = null ;
+//        devicecontrols = null ;
         log.info( this.getClass().getName() + " -> " + " all CSTA resources have been released" ) ;
         log.info( this.getClass().getName() + " -> " + " releasing network resources") ;
         tcpThread = null ;
@@ -193,11 +192,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param deviceFrom The calling party
      * @param deviceTo The called party
      */
-    public void MakeCall(String deviceFrom, String deviceTo){
-        log.info(this.getClass().getName() + " ---> " + "Make Call " + deviceFrom + " to " + deviceTo) ;
-        StringBuffer sb = callcontrols.MakeCall(deviceFrom, deviceTo) ;
-        SendToServer(sb) ;
-    }
+//    public void MakeCall(String deviceFrom, String deviceTo){
+//        log.info(this.getClass().getName() + " ---> " + "Make Call " + deviceFrom + " to " + deviceTo) ;
+//        StringBuffer sb = callcontrols.MakeCall(deviceFrom, deviceTo) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * AnswerCall answers a call at an answering device
@@ -206,11 +205,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param device The answering party
      * @param call_id The call to answer
      */
-    public void AnswerCall(String device, String call_id){
-        //**LOG**RUNNING FINE - Answer Call <device> <call_id>
-        StringBuffer sb = callcontrols.AnswerCall(device, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void AnswerCall(String device, String call_id){
+//        //**LOG**RUNNING FINE - Answer Call <device> <call_id>
+//        StringBuffer sb = callcontrols.AnswerCall(device, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * HoldCall holds a call at holding device
@@ -219,11 +218,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param device The holding party
      * @param call_id The call to be held
      */
-    public void HoldCall(String device, String call_id){
-        //**LOG**RUNNING FINE - Hold Call <device> <call_id>
-        StringBuffer sb = callcontrols.HoldCall(device, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void HoldCall(String device, String call_id){
+//        //**LOG**RUNNING FINE - Hold Call <device> <call_id>
+//        StringBuffer sb = callcontrols.HoldCall(device, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * RetrieveCall retrieves a held call
@@ -232,11 +231,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param device The device where the call is to be retrieved from
      * @param call_id The call to be retrieved
      */
-    public void RetrieveCall(String device, String call_id){
-        //**LOG**RUNNING FINE - Retrieve Call <device> <call_id>
-        StringBuffer sb = callcontrols.RetrieveCall(device, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void RetrieveCall(String device, String call_id){
+//        //**LOG**RUNNING FINE - Retrieve Call <device> <call_id>
+//        StringBuffer sb = callcontrols.RetrieveCall(device, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * ClearConnection hangs up a call at a clearing device
@@ -245,11 +244,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param device The hanging up device
      * @param call_id The call to be hung up or cleared
      */
-    public void ClearConnection(String device, String call_id){
-        log.info(this.getClass().getName() + " ---> " + "Clear Connection" + call_id + " @ " + device) ;
-        StringBuffer sb = callcontrols.ClearConnection(device, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void ClearConnection(String device, String call_id){
+//        log.info(this.getClass().getName() + " ---> " + "Clear Connection" + call_id + " @ " + device) ;
+//        StringBuffer sb = callcontrols.ClearConnection(device, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * MonitorStart monitors an extension for call events only
@@ -257,11 +256,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      *
      * @param device Device on which monitor is to be on
      */
-    public void MonitorStart(String device){
-        //**LOG**RUNNING FINE - Monitor Start <device>
-        StringBuffer sb = callcontrols.MonitorRequest(device) ;
-        SendToServer(sb) ;
-    }
+//    public void MonitorStart(String device){
+//        //**LOG**RUNNING FINE - Monitor Start <device>
+//        StringBuffer sb = callcontrols.MonitorRequest(device) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * Transfer a call, (blindly i think),  to another device.
@@ -271,11 +270,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param deviceTo The destination where the call will go
      * @param call_id The call that is being transferred
      */
-    public void TransferCall(String deviceFrom, String deviceTo, String call_id){
-        //**LOG**RUNNING FINE - Transfer Call <deviceFrom> <deviceTo> <call_id>
-        StringBuffer sb = callcontrols.SingleStepTransfer(deviceFrom, deviceTo, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void TransferCall(String deviceFrom, String deviceTo, String call_id){
+//        //**LOG**RUNNING FINE - Transfer Call <deviceFrom> <deviceTo> <call_id>
+//        StringBuffer sb = callcontrols.SingleStepTransfer(deviceFrom, deviceTo, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * Deflect (divert) a call that is alerting queued or failed to another destination.
@@ -285,11 +284,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param deviceTo The device to deflect to
      * @param call_id The call_id of the call
      */
-    public void DeflectCall(String deviceFrom, String deviceTo, String call_id){
-        //**LOG**RUNNING FINE - Deflect Call <deviceFrom> <deviceTo> <call_id>
-        StringBuffer sb = callcontrols.DeflectCall(deviceFrom, deviceTo, call_id) ;
-        SendToServer(sb) ;
-    }
+//    public void DeflectCall(String deviceFrom, String deviceTo, String call_id){
+//        //**LOG**RUNNING FINE - Deflect Call <deviceFrom> <deviceTo> <call_id>
+//        StringBuffer sb = callcontrols.DeflectCall(deviceFrom, deviceTo, call_id) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * Sets the display of a device for a permanent amount of time.  To clear the
@@ -300,7 +299,7 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param text The text to display
      * @param beep Whether or not to beep on delivery
      */
-    public abstract void SetDisplay(String device1, String text, boolean beep);
+//    public abstract void SetDisplay(String device1, String text, boolean beep);
     
     /**
      * Requests a new agent state at a specified device
@@ -310,11 +309,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      * @param agentID The agent id
      * @param requestedState the requested state
      */
-    public void ChangeAgentState(String device, String agentID, int requestedState){
-        //LOG**RUNNING FINE - Change Agent State <device> <agentID> <requestedState>
-        StringBuffer sb = ldfs.setAgentState(device,agentID,requestedState) ;
-        SendToServer(sb) ;
-    }
+//    public void ChangeAgentState(String device, String agentID, int requestedState){
+//        //LOG**RUNNING FINE - Change Agent State <device> <agentID> <requestedState>
+//        StringBuffer sb = ldfs.setAgentState(device,agentID,requestedState) ;
+//        SendToServer(sb) ;
+//    }
     
     /**
      * Disconnects the socket

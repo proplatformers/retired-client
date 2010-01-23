@@ -18,7 +18,7 @@ This file is part of Open CSTA.
 package org.opencsta.client.hipath3000;
 
 import org.apache.log4j.Logger;
-import org.opencsta.client.hipath3000.CSTAClient3000;
+import org.opencsta.apps.objects.Client_Layer7_Impl;
 import org.opencsta.servicedescription.common.helpers.CSTA_Layer_7_Common;
 import org.opencsta.servicedescription.common.helpers.CallEventHandler;
 import org.opencsta.servicedescription.common.helpers.LogicalDeviceFeatureEventHandler;
@@ -28,7 +28,7 @@ import org.opencsta.servicedescription.logicaldevicefeatures.events.AgentEvent_B
  *
  * @author  root
  */
-public class Client_Layer7 extends CSTA_Layer_7_Common{
+public class Client_Layer7 extends CSTA_Layer_7_Common implements Client_Layer7_Impl{
     Logger log = Logger.getLogger(Client_Layer7.class) ;
     private String xRef ;
     CSTAClient3000 parent ;
@@ -142,7 +142,7 @@ public class Client_Layer7 extends CSTA_Layer_7_Common{
         return true ;
     }
     
-    private void ParseTDSdata(StringBuffer sb, boolean et){
+    public void ParseTDSdata(StringBuffer sb, boolean et){
         System.out.println("\t***\t***\t***\tParse TDS data in Client Layer7") ;
         
         //boolean et, early termination, used for quick access to tds code for client
@@ -169,7 +169,7 @@ public class Client_Layer7 extends CSTA_Layer_7_Common{
     }
     
     
-    private void CSTAEventReceived(StringBuffer curInStr){
+    public void CSTAEventReceived(StringBuffer curInStr){
         //System.out.println("\n\nCSTAEventReceived!!!\n\n") ;
         
         //if ( curInStr.charAt(0) == 0x55 ){

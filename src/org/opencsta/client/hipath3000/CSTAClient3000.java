@@ -17,35 +17,42 @@ This file is part of Open CSTA.
 
 package org.opencsta.client.hipath3000;
 
+import java.net.Socket;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.opencsta.apps.objects.CSTAApplication;
+import org.opencsta.apps.objects.Client_Layer7_Impl;
 import org.opencsta.servicedescription.common.CSTAGUIOwner;
 import org.opencsta.servicedescription.common.CallEvent;
 import org.opencsta.servicedescription.callcontrol.events.CallEvent_Base;
 import org.opencsta.servicedescription.logicaldevicefeatures.events.AgentEvent_Base ;
 import org.opencsta.client.CSTAFunctions ;
 import org.opencsta.client.CSTAClientBase ;
+import org.opencsta.client.CSTAMulti;
+import org.opencsta.servicedescription.callcontrol.services.CallControl_Services_SiemensHipath3000;
+import org.opencsta.servicedescription.logicaldevicefeatures.services.LogicalDeviceFeatures_Services_SiemensHipath3000;
+import org.opencsta.servicedescription.physicaldevicefeatures.services.PhysicalDeviceFeatures_Services_SiemensHipath3000;
 /**
  * The Client for the Hipath 3000 range.
  *
  *
  * @author mylo
  */
-public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
-    Logger log = Logger.getLogger(CSTAClient3000.class) ;
+public class CSTAClient3000 implements CSTAFunctions{
     /**
      * the client csta layer 7 portion
      *
      */
-    private Client_Layer7 cl7 ;
+    private Client_Layer7_Impl cl7 ;
     
-    
-    
-    
+    private CSTAMulti cstaMulti ;
+    protected PhysicalDeviceFeatures_Services_SiemensHipath3000 devicecontrols ;
+    protected LogicalDeviceFeatures_Services_SiemensHipath3000 ldfs ;
+    protected CallControl_Services_SiemensHipath3000 callcontrols ;
+
     
     //SHORTCUT: just for TDS display to gui
-    private CSTAGUIOwner gui ;
+//    private CSTAGUIOwner gui ;
     //    private PNA_BASEPage pna ;
     
     
@@ -55,10 +62,13 @@ public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
      * Creates a new instance of CSTAClient
      *
      */
-    public CSTAClient3000(Properties _theProps) {
-        super(_theProps) ;
+    public CSTAClient3000(CSTAMulti cstamulti, Properties _theProps) {
+        this.cstaMulti = cstamulti ;
         //**LOG**GENERAL INFO = Using: Hipath 3000 CSTA Client
         cl7 = new Client_Layer7(this) ;
+        callcontrols = new CallControl_Services_SiemensHipath3000() ;
+        ldfs = new LogicalDeviceFeatures_Services_SiemensHipath3000() ;
+        devicecontrols = new PhysicalDeviceFeatures_Services_SiemensHipath3000() ;
         //**LOG**GENERAL FINE - CallControls created - OK
         
         //**LOG**GENERAL FINE - DeviceControls created - OK
@@ -68,60 +78,17 @@ public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
         //callEvent = new CallEvent() ;
     }
     
-    /**
-     * This is where the csta string first comes into contact with the client code after leaving the TCP code.
-     *
-     *
-     * @return
-     * @param curInStr The string just received from the CSTA Server
-     */
-    public boolean PassedUp(StringBuffer curInStr){
-        log.info(this.getClass().getName() + " ---> " + " PassedUp - network should not drop out") ;
-        if(curInStr.charAt(0) == 0xA1 || curInStr.charAt(0) == 0xA2){
-            log.info(this.getClass().getName() + " ---> " + " A1/A2 - normal") ;
-        } else if(curInStr.charAt(0) == 0xA3 || curInStr.charAt(0) == 0xA4){
-            log.info(this.getClass().getName() + " ---> " + " A3/A4 - error") ;
-        } else if(curInStr.charAt(0) == 0x55){
-            log.info(this.getClass().getName() + " ---> " + " A1 - event") ;
-            return cl7.WorkString(curInStr) ;
-        }
-        else if(curInStr.charAt(0) == 0x99){
-            log.info(this.getClass().getName() + " ---> " + " 0x99 - TDS data received") ;
-        } else if(curInStr.charAt(0) == 0x98){
-            log.info(this.getClass().getName() + " ---> " + " 0x98 - TDS early termination stuff") ;
-        } else{
-            log.info(this.getClass().getName() + " ---> " + " Other received from server - must follow up") ;
-        }
-        return cl7.WorkString(curInStr) ;
-    }
+
     
-    /**
-     * dunno exactly
-     */
-    public void GUIIntro(CSTAGUIOwner gui){
-        this.gui = gui ;
-        //**LOG**GENERAL FINE - Graphical User Interface introduced - OK
-    }
+//    /**
+//     * dunno exactly
+//     */
+//    public void GUIIntro(CSTAGUIOwner gui){
+//        this.gui = gui ;
+//        //**LOG**GENERAL FINE - Graphical User Interface introduced - OK
+//    }
     
-    /**
-     * When a CSTA event is received of a call event type, it arrives here.  From here
-     * anything can be done to it.  It can be stored for later use, used immediately, it
-     * could trigger a condition, or it could just print to screen.
-     *
-     *
-     * @param event The call event that arrives at the client.
-     */
-    public void CSTAEventReceived(CallEvent_Base event){
-        System.out.println("Call Event") ;
-        
-        try{
-            //**LOG**RUNNING FINE - event.toString
-            System.out.println( event.toString() ) ;
-        }catch(NullPointerException e){
-        }
-        
-        parent.CSTACallEventReceived((CallEvent)event) ;
-    }
+
     
     /**
      * When a CSTA event is received of an agent event type, it arrives here.  From here
@@ -151,7 +118,6 @@ public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
     public void SetDisplay(String device1, String text, boolean beep){
         //**LOG**RUNNING FINE - Set Display <device> <text> <beep>
         StringBuffer sb = devicecontrols.SetDisplay(device1, text, beep) ;
-        log.info("Ext: " + device1 + " " + text + beep) ;
         SendToServer(sb) ;
     }
     
@@ -218,10 +184,6 @@ public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
         SendToServer(sb) ;
     }
     
-    
-    
-    
-    
     /**
      * whatever it says in the interface docs
      *
@@ -232,50 +194,82 @@ public class CSTAClient3000 extends CSTAClientBase implements CSTAFunctions{
         StringBuffer sb = callcontrols.TDSClientRequest() ;
         SendToServer(sb) ;
     }
-    
-    /**
-     * whatever it says in the interface docs
-     *
-     *
-     * @param dev
-     * @param code
-     * @param data
-     */
-    public void TDSDataReceived(String dev, String code, String data){
-        //**LOG**RUNNING FINE - TDS Received <device> <code> <data>
-        if(gui != null)
-            gui.TDSDataDisplay(dev, code, data) ;
-        else
-            parent.TDSDataReceived(dev,code,data) ;
+
+    public void MakeCall(String deviceFrom, String deviceTo) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    /**
-     * whatever it says in the interface docs
-     *
-     *
-     * @param dev
-     * @param code
-     */
-    public void TDSDataReceived(String dev, String code){
-        //**LOG**RUNNING FINE - TDS Received <device> <code>
-        System.out.println("Received tds data dev & code: " + dev + code ) ;
-        if(gui != null)
-            gui.TDSDataDisplay(dev,code, "") ;
-        else
-            parent.TDSDataReceived(dev,code,null) ;
+
+    public void AnswerCall(String device, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
+    public void HoldCall(String device, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void RetrieveCall(String device, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void ClearConnection(String device, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void MonitorStart(String device) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void TransferCall(String deviceFrom, String deviceTo, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void DeflectCall(String deviceFrom, String deviceTo, String call_id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void Quit() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void ServerStatus() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Socket getSocket() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void release() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void CSTAEventReceived(CallEvent_Base currentEvent) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void TDSDataReceived(String dev, String code, String data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void TDSDataReceived(String dev, String code) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
     /**
-     * whatever it says in the interface docs
-     *
-     * @param parent the parent itself - say a gui or some other application
-     * that would like to know what the phone is doing
+     * @param cl7 the cl7 to set
      */
-    public void RegisterParentApplication(CSTAApplication parent){
-        //        System.out.println("PNA_Base.PNA_Intro - TDSabout to be enabled") ;
-        //**LOG**RUNNING FINE - BASEPage introduced - OK
-        this.parent = parent ;
-        //        TDSenable() ;
+    public void setCl7(Client_Layer7_Impl cl7) {
+        this.cl7 = cl7;
+    }
+
+
+    public Client_Layer7_Impl getCl7() {
+        return cl7;
+    }
+
+    public void SendToServer(StringBuffer sb) {
+        cstaMulti.SendToServer(sb) ;
     }
     
 
