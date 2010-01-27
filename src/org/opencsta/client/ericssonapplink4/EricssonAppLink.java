@@ -158,7 +158,7 @@ public class EricssonAppLink implements CSTAFunctions{
     }
 
     public void CSTAEventReceived(CallEvent_Base currentEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        cstaMulti.CSTAEventReceived(currentEvent);
     }
 
     public void CSTAEventReceived(AgentEvent_Base currentEvent) {

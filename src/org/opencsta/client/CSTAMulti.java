@@ -33,6 +33,7 @@ import org.opencsta.servicedescription.logicaldevicefeatures.events.AgentEvent_B
 public class CSTAMulti extends CSTAClientBase implements Runnable,CSTAFunctions,CSTA_Implementation_Functions{
 //    private static Logger log = Logger.getLogger(CSTAMulti.class) ;
     private CSTAFunctions implementation ;
+    private boolean runFlag ;
 //    private CSTAApplication parent ;
 //    private Properties someProps ;
 
@@ -41,15 +42,22 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,CSTAFunctions,
 //        someProps = _theProps ;
         RegisterParentApplication(parent);
         setImplementation() ;
+        setRunFlag(true) ;
     }
 
 
-    //listens for messages in both directions
+    //listens for messages
     @SuppressWarnings("static-access")
     public void run() {
-        try{
-            Thread.currentThread().sleep(50) ;
-        }catch(InterruptedException e){
+        while( isRunFlag() ){
+            try{
+                while( getSizeWorklist() > 0 ){
+                    StringBuffer sb = getCSTAJob();
+                    implementation.getCl7().WorkString(sb);
+                }
+                Thread.currentThread().sleep(100) ;
+            }catch(InterruptedException e){
+            }
         }
     }
 
@@ -237,6 +245,20 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,CSTAFunctions,
 
     public Client_Layer7_Impl getCl7() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * @return the runFlag
+     */
+    public boolean isRunFlag() {
+        return runFlag;
+    }
+
+    /**
+     * @param runFlag the runFlag to set
+     */
+    public void setRunFlag(boolean runFlag) {
+        this.runFlag = runFlag;
     }
 
 }

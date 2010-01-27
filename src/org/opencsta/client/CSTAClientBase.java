@@ -19,6 +19,9 @@ package org.opencsta.client;
 
 //import apps.pna.PNA_Base;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import org.opencsta.net.TCPClientOwnerInterface;
 import org.opencsta.net.TCPClient ;
 import java.util.Properties ;
@@ -37,7 +40,8 @@ import org.opencsta.apps.objects.CSTAApplication;
  */
 public abstract class CSTAClientBase implements TCPClientOwnerInterface{
     private Thread tcpThread  ;
-    public static Logger log = Logger.getLogger(CSTAClientBase.class) ; 
+    public static Logger log = Logger.getLogger(CSTAClientBase.class) ;
+    private List<StringBuffer> workList ;
     /**
      * the call controls offered
      *
@@ -99,6 +103,7 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
 //        theProps = PropertiesController.getInstance() ;
 //        CreateLogFile() ;
         theProps = _theProps ;
+        workList = Collections.synchronizedList( new LinkedList<StringBuffer>() );
         tcp = new TCPClient(this,"CSTACLIENT",_theProps) ;
         tcp.setCSTAClientCommunications(true) ;
         tcpThread = new Thread(tcp,"TCP Thread") ;
@@ -339,14 +344,21 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
         try{
             parent.cstaFail();
         }catch(NullPointerException e){
-            
+            System.exit(0) ;
         }
     }
 
-    public void addWorkIN(StringBuffer str){
-        System.out.println(this.getClass().getName() + " ---> " + " addWorkIN") ;
-        for(int i = 0 ; i < str.length() ; i++){
-            System.out.print( Integer.toHexString(str.charAt(i))) ;
-        }
+    public synchronized void addWorkIN(StringBuffer str){
+        System.out.println("ADDED WORK IN") ;
+        workList.add(str);
     }
+
+	public synchronized StringBuffer getCSTAJob(){
+		return (StringBuffer)workList.remove(0) ;
+	}
+
+	public int getSizeWorklist(){
+		return workList.size() ;
+	}
+
 }
