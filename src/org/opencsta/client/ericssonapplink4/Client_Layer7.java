@@ -38,6 +38,7 @@ public Client_Layer7(EricssonAppLink _parent){
 
     public boolean WorkString(StringBuffer curInStr){ //formerly PassedUp, then RoseResultPassedUp
         boolean invokeFlag = true ;
+        int counter = 0 ;
         while( curInStr.length() > 0 ){
             for(int i = 0 ; i < curInStr.length() ; i++ ){
                 System.out.print("0x" + Integer.toHexString((int)curInStr.charAt(i)) + " ") ;
@@ -84,6 +85,15 @@ public Client_Layer7(EricssonAppLink _parent){
                 log.warn(this.getClass().getName() + " other start of CSTA string for workstring");
                 curInStr = new StringBuffer() ;
             }
+            counter++ ;
+        }
+        if( curInStr.length() > 0 ){
+            log.error("Unsupported CSTA Function: " );
+            StringBuffer tmp = new StringBuffer() ;
+            for( int i = 0 ; i < curInStr.length() ; i++ ){
+                tmp.append( Integer.toHexString((int)curInStr.charAt(i))) ;
+            }
+            log.error(tmp.toString()) ;
         }
 
 
