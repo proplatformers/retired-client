@@ -83,6 +83,8 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
      *
      */
     public CSTAApplication parent ;
+
+    private String APPNAME ;
 //    /**
 //     * The Logger object for the client
 //     *
@@ -103,9 +105,11 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
 //        theProps = PropertiesController.getInstance() ;
 //        CreateLogFile() ;
         theProps = _theProps ;
+        APPNAME = theProps.getProperty("CSTA_APPNAME") ;
         workList = Collections.synchronizedList( new LinkedList<StringBuffer>() );
-        tcp = new TCPClient(this,"CSTACLIENT",_theProps) ;
-        tcp.setCSTAClientCommunications(true) ;
+        tcp = new TCPClient(this,APPNAME,_theProps) ;
+        tcp.setREPLACEDLEWITHDLEDLE(Boolean.parseBoolean( theProps.getProperty(APPNAME + "_REPLACEDLEWITHDLEDLE" ) )) ;
+        tcp.setREPLACEDLEDLEWITHDLE(Boolean.parseBoolean(theProps.getProperty(APPNAME + "_REPLACEDLEDLEWITHDLE"))) ;
         tcpThread = new Thread(tcp,"TCP Thread") ;
         tcpThread.start() ;
 //        callcontrols = new CallControl_Services_SiemensHipath3000() ;
@@ -360,5 +364,19 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
 	public int getSizeWorklist(){
 		return workList.size() ;
 	}
+
+    /**
+     * @return the APPNAME
+     */
+    public String getAPPNAME() {
+        return APPNAME;
+    }
+
+    /**
+     * @param APPNAME the APPNAME to set
+     */
+    public void setAPPNAME(String APPNAME) {
+        this.APPNAME = APPNAME;
+    }
 
 }
