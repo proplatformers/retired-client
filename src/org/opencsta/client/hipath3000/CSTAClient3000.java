@@ -216,7 +216,7 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void MonitorStart(String device) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        MonitorStart_AgentsAndCalls(device) ;
     }
 
     public void TransferCall(String deviceFrom, String deviceTo, String call_id) {
@@ -244,7 +244,7 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void CSTAEventReceived(CallEvent_Base currentEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        cstaMulti.CSTAEventReceived(currentEvent);
     }
 
     public void TDSDataReceived(String dev, String code, String data) {
