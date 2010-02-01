@@ -110,6 +110,7 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface{
         tcp = new TCPClient(this,APPNAME,_theProps) ;
         tcp.setREPLACEDLEWITHDLEDLE(Boolean.parseBoolean( theProps.getProperty(APPNAME + "_REPLACEDLEWITHDLEDLE" ) )) ;
         tcp.setREPLACEDLEDLEWITHDLE(Boolean.parseBoolean(theProps.getProperty(APPNAME + "_REPLACEDLEDLEWITHDLE"))) ;
+        tcp.setCSTAClientCommunications( Boolean.parseBoolean(theProps.getProperty(APPNAME + "_OPENCSTACLIENTSERVER")) ) ;
         tcpThread = new Thread(tcp,"TCP Thread") ;
         tcpThread.start() ;
 //        callcontrols = new CallControl_Services_SiemensHipath3000() ;
