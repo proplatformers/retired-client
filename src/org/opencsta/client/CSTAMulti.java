@@ -199,21 +199,6 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,CSTAFunctions,
         log.info(this.getClass().getName() + " TELEPHONE DATA SERVICE: TDS ENABLE - NOT SUPPORTED YET") ;
     }
 
-    public void Quit() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void ServerStatus() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Socket getSocket() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void release() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     /**
      * When a CSTA event is received of a call event type, it arrives here.  From here
