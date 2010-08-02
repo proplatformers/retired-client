@@ -201,19 +201,23 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void AnswerCall(String device, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.AnswerCall(device, call_id) ;
+        SendToServer(sb);
     }
 
     public void HoldCall(String device, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.HoldCall(device, call_id) ;
+        SendToServer(sb);
     }
 
     public void RetrieveCall(String device, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.RetrieveCall(device, call_id) ;
+        SendToServer(sb);
     }
 
     public void ClearConnection(String device, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.ClearConnection(device, call_id) ;
+        SendToServer(sb);
     }
 
     public void MonitorStart(String device) {
@@ -221,11 +225,13 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void TransferCall(String deviceFrom, String deviceTo, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.TransferCall(deviceFrom, deviceTo, call_id) ;
+        SendToServer(sb);
     }
 
     public void DeflectCall(String deviceFrom, String deviceTo, String call_id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.DeflectCall(deviceFrom, deviceTo, call_id) ;
+        SendToServer(sb);
     }
 
     public void Quit() {
