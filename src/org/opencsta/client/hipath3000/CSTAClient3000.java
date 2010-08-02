@@ -196,7 +196,8 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void MakeCall(String deviceFrom, String deviceTo) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StringBuffer sb = callcontrols.MakeCall(deviceTo, deviceTo) ;
+        SendToServer(sb);
     }
 
     public void AnswerCall(String device, String call_id) {
