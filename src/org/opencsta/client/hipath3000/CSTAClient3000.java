@@ -225,7 +225,7 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void TransferCall(String deviceFrom, String deviceTo, String call_id) {
-        StringBuffer sb = callcontrols.TransferCall(deviceFrom, deviceTo, call_id) ;
+        StringBuffer sb = callcontrols.SingleStepTransfer(deviceFrom, deviceTo, call_id) ;
         SendToServer(sb);
     }
 
