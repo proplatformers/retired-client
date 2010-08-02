@@ -196,7 +196,7 @@ public class CSTAClient3000 implements CSTAFunctions{
     }
 
     public void MakeCall(String deviceFrom, String deviceTo) {
-        StringBuffer sb = callcontrols.MakeCall(deviceTo, deviceTo) ;
+        StringBuffer sb = callcontrols.MakeCall(deviceFrom, deviceTo) ;
         SendToServer(sb);
     }
 
