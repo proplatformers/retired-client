@@ -13,13 +13,13 @@ This file is part of Open CSTA.
 
     You should have received a copy of the GNU Lesser General Public License
     along with Open CSTA.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.opencsta.client;
 
 /**
- *
- * @author cm
+ * 
+ * @author chrismylonas
  */
 public interface uaCSTAFunctions {
 

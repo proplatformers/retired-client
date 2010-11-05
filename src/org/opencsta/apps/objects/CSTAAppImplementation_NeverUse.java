@@ -13,48 +13,75 @@ This file is part of Open CSTA.
 
     You should have received a copy of the GNU Lesser General Public License
     along with Open CSTA.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.opencsta.apps.objects;
 
 import org.opencsta.apps.objects.CSTAApplication;
-import org.opencsta.servicedescription.common.AgentEvent ;
-import org.opencsta.servicedescription.common.CallEvent ;
+import org.opencsta.servicedescription.common.AgentEvent;
+import org.opencsta.servicedescription.common.CallEvent;
 
 /**
- *
- * @author mylo
+ * 
+ * @author chrismylonas
  */
-public class CSTAAppImplementation_NeverUse implements CSTAApplication{
-    
-    /** Creates a new instance of CSTAAppImplementation_NeverUse */
-    public CSTAAppImplementation_NeverUse() {
-    }
-    
-    public void CSTACallEventReceived(CallEvent event){
-        System.out.println("Call Event") ;
-        try{
-            //**LOG**RUNNING FINE - event.toString
-            System.out.println( event.toString() ) ;
-        }catch(NullPointerException e){
-        }
-    }
-    
-    public void CSTAAgentEventReceived(AgentEvent event){
-        System.out.println("Agent Event") ;
-        try{
-            //**LOG**RUNNING FINE - event.toString
-            System.out.println( event.toString() ) ;
-        }catch(NullPointerException e){
-        }
-    }
-    
-    public void TDSDataReceived(String dev, String code, String data){
-        String output = "\n\tDevice: " + dev + "\n\tCode: " + code + "\n\tData: " + data ;
-        System.out.println(output) ;
-    }
+public class CSTAAppImplementation_NeverUse implements CSTAApplication {
 
-    public void cstaFail() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	/** Creates a new instance of CSTAAppImplementation_NeverUse */
+	public CSTAAppImplementation_NeverUse() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.opencsta.apps.objects.CSTAApplication#CSTACallEventReceived(CallEvent
+	 * )
+	 */
+	public void CSTACallEventReceived(CallEvent event) {
+		System.out.println("Call Event");
+		try {
+			// **LOG**RUNNING FINE - event.toString
+			System.out.println(event.toString());
+		} catch (NullPointerException e) {
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.opencsta.apps.objects.CSTAApplication#CSTAAgentEventReceived(AgentEvent
+	 * )
+	 */
+	public void CSTAAgentEventReceived(AgentEvent event) {
+		System.out.println("Agent Event");
+		try {
+			// **LOG**RUNNING FINE - event.toString
+			System.out.println(event.toString());
+		} catch (NullPointerException e) {
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.opencsta.apps.objects.CSTAApplication#TDSDataReceived(java.lang.String
+	 * , java.lang.String, java.lang.String)
+	 */
+	public void TDSDataReceived(String dev, String code, String data) {
+		String output = "\n\tDevice: " + dev + "\n\tCode: " + code
+				+ "\n\tData: " + data;
+		System.out.println(output);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.opencsta.apps.objects.CSTAApplication#cstaFail()
+	 */
+	public void cstaFail() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 }

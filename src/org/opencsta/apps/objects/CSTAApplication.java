@@ -13,19 +13,38 @@ This file is part of Open CSTA.
 
     You should have received a copy of the GNU Lesser General Public License
     along with Open CSTA.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.opencsta.apps.objects;
-import org.opencsta.servicedescription.common.CallEvent ;
-import org.opencsta.servicedescription.common.AgentEvent ;
+
+import org.opencsta.servicedescription.common.CallEvent;
+import org.opencsta.servicedescription.common.AgentEvent;
 
 /**
- *
- * @author mylo
+ * 
+ * @author chrismylonas
  */
 public interface CSTAApplication {
-    public void CSTACallEventReceived(CallEvent event) ;
-    public void CSTAAgentEventReceived(AgentEvent event) ;
-    public void TDSDataReceived(String dev, String code, String data) ;
-    public void cstaFail() ;
+
+	/**
+	 * @param event
+	 */
+	public void CSTACallEventReceived(CallEvent event);
+
+	/**
+	 * @param event
+	 */
+	public void CSTAAgentEventReceived(AgentEvent event);
+
+	/**
+	 * @param dev
+	 * @param code
+	 * @param data
+	 */
+	public void TDSDataReceived(String dev, String code, String data);
+
+	/**
+	 * 
+	 */
+	public void cstaFail();
 }
