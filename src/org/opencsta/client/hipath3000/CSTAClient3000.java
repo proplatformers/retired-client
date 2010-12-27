@@ -30,6 +30,7 @@ import org.opencsta.client.CSTAFunctions;
 import org.opencsta.client.CSTAClientBase;
 import org.opencsta.client.CSTAMulti;
 import org.opencsta.servicedescription.callcontrol.services.CallControl_Services_SiemensHipath3000;
+import org.opencsta.servicedescription.callcontrol.services.interfaces.ICallControl_Services;
 import org.opencsta.servicedescription.logicaldevicefeatures.services.LogicalDeviceFeatures_Services_SiemensHipath3000;
 import org.opencsta.servicedescription.physicaldevicefeatures.services.PhysicalDeviceFeatures_Services_SiemensHipath3000;
 
@@ -64,6 +65,7 @@ public class CSTAClient3000 implements CSTAFunctions {
 	/**
 	 * 
 	 */
+	//protected ICallControl_Services callcontrols;
 	protected CallControl_Services_SiemensHipath3000 callcontrols;
 
 	/**
