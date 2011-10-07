@@ -168,6 +168,7 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,
 	public void AnswerCall(String device, String call_id) {
 		log.info(this.getClass().getName() + " CALL CONTROL ANSWER CALL: "
 				+ call_id + " @ " + device);
+		implementation.AnswerCall(device, call_id);
 	}
 
 	/*
@@ -179,6 +180,7 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,
 	public void HoldCall(String device, String call_id) {
 		log.info(this.getClass().getName() + " CALL CONTROL HOLD CALL: "
 				+ call_id + " @ " + device);
+		implementation.HoldCall(device,call_id);
 	}
 
 	/*
@@ -190,6 +192,7 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,
 	public void RetrieveCall(String device, String call_id) {
 		log.info(this.getClass().getName() + " CALL CONTROL RETRIEVE CALL: "
 				+ call_id + " @ " + device);
+		implementation.RetrieveCall(device,call_id);
 	}
 
 	/*
@@ -259,6 +262,7 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,
 	public void TransferCall(String deviceFrom, String deviceTo, String call_id) {
 		log.info(this.getClass().getName() + " CALL CONTROL TRANSFER CALL: "
 				+ call_id + " @ " + deviceFrom + " -> " + deviceTo);
+		implementation.TransferCall(deviceFrom,deviceTo,call_id);
 	}
 
 	/*
@@ -270,6 +274,7 @@ public class CSTAMulti extends CSTAClientBase implements Runnable,
 	public void DeflectCall(String deviceFrom, String deviceTo, String call_id) {
 		log.info(this.getClass().getName() + " CALL CONTROL DEFLECT CALL: "
 				+ call_id + " @ " + deviceFrom + " -> " + deviceTo);
+		implementation.DeflectCall(deviceFrom,deviceTo,call_id);
 	}
 
 	/*
