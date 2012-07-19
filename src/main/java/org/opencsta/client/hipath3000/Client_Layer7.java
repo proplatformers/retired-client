@@ -17,13 +17,14 @@ This file is part of Open CSTA.
 
 package org.opencsta.client.hipath3000;
 
-import org.apache.log4j.Logger;
 import org.opencsta.apps.objects.Client_Layer7_Impl;
+import org.opencsta.servicedescription.callcontrol.events.CallEvent_Base;
 import org.opencsta.servicedescription.common.helpers.CSTA_Layer_7_Common;
 import org.opencsta.servicedescription.common.helpers.CallEventHandler;
 import org.opencsta.servicedescription.common.helpers.LogicalDeviceFeatureEventHandler;
-import org.opencsta.servicedescription.callcontrol.events.CallEvent_Base;
 import org.opencsta.servicedescription.logicaldevicefeatures.events.AgentEvent_Base;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class Client_Layer7 extends CSTA_Layer_7_Common implements
 	/**
 	 * 
 	 */
-	Logger log = Logger.getLogger(Client_Layer7.class);
+	Logger log = LoggerFactory.getLogger(Client_Layer7.class);
 
 	/**
 	 * 

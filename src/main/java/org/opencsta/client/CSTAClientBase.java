@@ -21,14 +21,13 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.opencsta.net.TCPClientOwnerInterface;
-import org.opencsta.net.TCPClient;
 import java.util.Properties;
-import org.opencsta.servicedescription.callcontrol.services.CallControl_Services_SiemensHipath3000;
-import org.opencsta.servicedescription.logicaldevicefeatures.services.LogicalDeviceFeatures_Services_SiemensHipath3000;
-import org.opencsta.servicedescription.physicaldevicefeatures.services.PhysicalDeviceFeatures_Services_SiemensHipath3000;
-import org.apache.log4j.Logger;
+
 import org.opencsta.apps.objects.CSTAApplication;
+import org.opencsta.net.TCPClient;
+import org.opencsta.net.TCPClientOwnerInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is the base class for CSTAClient classes. It sets up the TCP link
@@ -48,7 +47,7 @@ public abstract class CSTAClientBase implements TCPClientOwnerInterface {
 	/**
 	 * 
 	 */
-	public static Logger log = Logger.getLogger(CSTAClientBase.class);
+	public static Logger log = LoggerFactory.getLogger(CSTAClientBase.class);
 
 	/**
 	 * 

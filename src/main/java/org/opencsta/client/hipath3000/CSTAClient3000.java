@@ -19,7 +19,6 @@ package org.opencsta.client.hipath3000;
 
 import java.net.Socket;
 import java.util.Properties;
-import org.apache.log4j.Logger;
 import org.opencsta.apps.objects.CSTAApplication;
 import org.opencsta.apps.objects.Client_Layer7_Impl;
 import org.opencsta.servicedescription.common.CSTAGUIOwner;
